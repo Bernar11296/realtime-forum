@@ -1,21 +1,41 @@
-import Router from "./Router/route.js";
-import Navigation from "./component/navigation.js";
-import renderAbout from "./component/about.js";
-import renderHome from "./component/home.js";
-import renderContact from "./component/contact.js";
+const appDiv = document.getElementById("app");
+const nav = document.getElementById("nav");
 
-const routes = {
-  '/': 'Home',
-  '/about': 'About',
-  '/contact': 'Contact'
+import renderNav from "./component/navigation.js";
+import home from "./component/pages/home.js"
+import register from "./component/pages/register.js"
+import auth from "./component/pages/auth.js"
+
+
+const routes = [
+    { path: "/", pathName: "Home", view: home },
+    { path: "/auth", pathName: "auth", view: auth },
+    { path: "/register", pathName: "register", view: register },
+];
+
+const router = () => {
+    const matchingRoute = routes.find((route) => route.path === window.location.pathname);
+
+    if (!matchingRoute) {
+        appDiv.innerHTML = "<h1>Page not found</h1>";
+        return;
+    }
+
+    matchingRoute.view();
 };
 
-const router = new Router({
-  '/': renderHome,
-  '/about': renderAbout,
-  '/contact': renderContact
+document.addEventListener("click", (event) => {
+    if (event.target.tagName !== "A") {
+        return;
+    }
+
+    event.preventDefault();
+
+    window.history.pushState(null, null, event.target.href);
+
+    router();
 });
 
-const navigation = new Navigation(routes);
-
-router.start();
+window.addEventListener("popstate", router);
+renderNav(routes, nav)
+router(routes);

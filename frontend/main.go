@@ -8,6 +8,10 @@ import (
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		// if r.URL.Path != "/" {
+		// 	http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
+		// 	return
+		// }
 		http.ServeFile(w, r, "index.html")
 	})
 
@@ -19,6 +23,6 @@ func main() {
 		http.ServeFile(w, r, r.URL.Path[1:])
 	})
 
-	fmt.Printf("Server listening on port :8080...\n")
-	http.ListenAndServe(":8080", nil)
+	fmt.Printf("Server listening on port :4000...\n")
+	http.ListenAndServe(":4000", nil)
 }
