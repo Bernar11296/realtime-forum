@@ -1,4 +1,5 @@
 async function submitHandler(event) {
+    console.log("asd");
     event.preventDefault();
     const formData = new FormData(event.target);
     const Username = formData.get('Username');
@@ -10,7 +11,10 @@ async function submitHandler(event) {
     const password = formData.get('password');
     const password_prove = formData.get('password_prove');
     if (password_prove !== password || age < 18) {
-
+        const errorMessage = "Invalid input. Please make sure your passwords match and you are at least 18 years old.";
+        const errorElement = document.querySelector('.error');
+        errorElement.textContent = errorMessage;
+        console.log("awd");
         return;
     }
     const user = {

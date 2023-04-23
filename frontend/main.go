@@ -17,7 +17,7 @@ func main() {
 
 	http.HandleFunc("/src/", func(w http.ResponseWriter, r *http.Request) {
 		log.Println(r.URL.Path[1:])
-
+		w.Header().Set("Cache-Control", "max-age=0")
 		w.Header().Set("Content-Type", "application/javascript")
 
 		http.ServeFile(w, r, r.URL.Path[1:])

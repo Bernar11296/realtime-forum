@@ -5,6 +5,7 @@ import renderNav from "./component/navigation.js";
 import home from "./component/pages/home.js"
 import register from "./component/pages/register.js"
 import auth from "./component/pages/auth.js"
+// import { check_auth } from "./api/check.js";
 
 
 const routes = [
@@ -13,14 +14,18 @@ const routes = [
     { path: "/register", pathName: "register", view: register },
 ];
 
-const router = () => {
+const router = async() => {
     const matchingRoute = routes.find((route) => route.path === window.location.pathname);
 
     if (!matchingRoute) {
         appDiv.innerHTML = "<h1>Page not found</h1>";
         return;
     }
-
+    // const authenticated = await check_auth();
+    // if (!authenticated && matchingRoute.path !== '/auth') {
+    //     window.location.href = '/auth'; // Redirect to login page if user is not authenticated
+    //     return;
+    // }
     matchingRoute.view();
 };
 
@@ -38,4 +43,4 @@ document.addEventListener("click", (event) => {
 
 window.addEventListener("popstate", router);
 renderNav(routes, nav)
-router(routes);
+router();
