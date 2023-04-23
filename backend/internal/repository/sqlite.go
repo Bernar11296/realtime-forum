@@ -3,9 +3,9 @@ package repository
 import (
 	"database/sql"
 	"fmt"
-	"log"
 
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/sirupsen/logrus"
 )
 
 const (
@@ -101,8 +101,9 @@ func InitDB(c *ConfigDB) (*sql.DB, error) {
 	}
 	return db, nil
 }
+
 func CreateTables(db *sql.DB) error {
-	tables := []string{userTable, userAvatar, userSession, postTable, postCategory, commentsTable, likesPostTable, likeCommentTable}
+	tables := []string{userTable, userAvatar, userSession, postTable, postCategory, commentsTable, likesPostTable, likesCommentTable}
 	for _, table := range tables {
 		_, err := db.Exec(table)
 		if err != nil {
