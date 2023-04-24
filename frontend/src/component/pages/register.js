@@ -1,5 +1,4 @@
 async function submitHandler(event) {
-    console.log("asd");
     event.preventDefault();
     const formData = new FormData(event.target);
     const Username = formData.get('Username');
@@ -14,7 +13,6 @@ async function submitHandler(event) {
         const errorMessage = "Invalid input. Please make sure your passwords match and you are at least 18 years old.";
         const errorElement = document.querySelector('.error');
         errorElement.textContent = errorMessage;
-        console.log("awd");
         return;
     }
     const user = {
@@ -36,7 +34,7 @@ async function submitHandler(event) {
     if (response.ok) {
         console.log(response);
         // Registration successful, redirect to the login page
-        // window.location.href = '/auth';
+        window.location.href = '/auth';
     } else {
         // Registration failed, display an error message
         const errorMessage = await response.text();
@@ -49,7 +47,7 @@ function renderRegister() {
     <div class="signup-page">
     <div class="error"></div>
       <form>
-        <input type="text" name="nickname" placeholder="Nickname" required>
+        <input type="text" name="Username" placeholder="Username" required>
         <input type="number" name="age" placeholder="Age" min="18" max="120" required>
         <select name="gender" required>
           <option value="" disabled selected hidden>Gender</option>

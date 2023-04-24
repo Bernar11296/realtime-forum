@@ -9,9 +9,9 @@ import auth from "./component/pages/auth.js"
 
 
 const routes = [
-    { path: "/", pathName: "Home", view: home },
-    { path: "/auth", pathName: "auth", view: auth },
-    { path: "/register", pathName: "register", view: register },
+    { path: "/", pathName: "Home", view: home, auth: true },
+    { path: "/auth", pathName: "auth", view: auth, auth: false },
+    { path: "/register", pathName: "register", view: register, auth: false },
 ];
 
 const router = async() => {
@@ -21,11 +21,18 @@ const router = async() => {
         appDiv.innerHTML = "<h1>Page not found</h1>";
         return;
     }
-    // const authenticated = await check_auth();
-    // if (!authenticated && matchingRoute.path !== '/auth') {
-    //     window.location.href = '/auth'; // Redirect to login page if user is not authenticated
-    //     return;
-    // }
+    let usrObj;
+    try {
+        // authenticated = await check_auth();
+        usrObj = {
+            Username: "Diyar",
+            Auth: true
+        }
+    } catch (error) {
+        appDiv.innerHTML = "<h1>Error: " + error.message + "</h1>";
+        return
+    }
+    renderNav(routes, nav, usrObj)
     matchingRoute.view();
 };
 
@@ -42,5 +49,4 @@ document.addEventListener("click", (event) => {
 });
 
 window.addEventListener("popstate", router);
-renderNav(routes, nav)
 router();

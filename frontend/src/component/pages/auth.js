@@ -2,27 +2,19 @@ async function submitHandler(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const Username = formData.get('Username');
-    const age = formData.get('age');
-    const gender = formData.get('gender');
-    const firstName = formData.get('firstName');
-    const lastName = formData.get('lastName');
-    const email = formData.get('email');
     const password = formData.get('password');
-    const password_prove = formData.get('password_prove');
-    // if (password_prove !== password || age < 18) {
-
-    //     return;
-    // }
     const user = {
-        Email: email,
         Username: Username,
-        Age: age,
-        Gender: gender,
-        FirstName: firstName,
-        LastName: lastName,
         Password: password,
     };
-    const response = await fetch('http://localhost:8080/api/auth/sign_up', {
+    console.log(user);
+    if (user.Username.length === 0 || user.Password.length === 0) {
+        const errorMessage = "Invalid input. Please make sure your passwords match and you are at least 18 years old.";
+        const errorElement = document.querySelector('.error');
+        errorElement.textContent = errorMessage;
+        return;
+    }
+    const response = await fetch('http://localhost:8080/api/auth/sign_in', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(user),
@@ -30,9 +22,10 @@ async function submitHandler(event) {
 
     // Handle the response
     if (response.ok) {
+
         console.log(response);
         // Registration successful, redirect to the login page
-        // window.location.href = '/auth';
+        window.location.href = '/home';
     } else {
         // Registration failed, display an error message
         const errorMessage = await response.text();
@@ -43,8 +36,10 @@ async function submitHandler(event) {
 function renderAuth() {
     app.innerHTML = `
     <div class="auth-page">
+    <div class="error"></div>
+
       <form>
-        <input type="text" name="username" placeholder="Username" required>
+        <input type="text" name="Username" placeholder="Username" required>
         <input type="password" name="password" placeholder="Password" required>
         <button type="submit">Log in</button>
       </form>
@@ -54,6 +49,11 @@ function renderAuth() {
     // Create a style element and add CSS rules
     const style = document.createElement('style');
     style.textContent = `
+    .error {
+      color: red;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
     form {
       display: flex;
       flex-direction: column;
