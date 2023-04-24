@@ -1,15 +1,14 @@
 function renderNav(routes, navDiv, usrObj) {
+
     const navLinks = routes.map((route) => {
         const link = document.createElement("a");
         link.href = route.path;
         link.textContent = route.pathName;
-        console.log((route.auth && usrObj), route.path);
-        if (!(route.auth && usrObj)) {
-            return null;
+        if (route.display) {
+            return link;
         }
-        return link
-    });
-
+        return null;
+    }).filter((link) => link !== null);
     navDiv.innerHTML = ""; // clear navDiv before adding new links
 
     navLinks.forEach((link) => {
@@ -17,6 +16,11 @@ function renderNav(routes, navDiv, usrObj) {
             navDiv.appendChild(link);
         }
     });
+    if (usrObj) {
+        const link = document.createElement("a");
+        link.textContent = usrObj.Username;
+        navDiv.appendChild(link);
+    }
 }
 
 export default renderNav;

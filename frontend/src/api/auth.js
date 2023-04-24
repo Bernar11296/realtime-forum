@@ -1,5 +1,6 @@
-async function check_auth() {
-    const response = await fetch(`localhost:8080/auth/check_token`, {
+export const check_auth = async() => {
+
+    const response = await fetch(`http://localhost:8080/api/auth/check_token`, {
         headers: {
             'Accept': 'application/json',
             'Credentials': 'include'
@@ -15,8 +16,8 @@ async function check_auth() {
         }
     } else if (response.ok) {
         const data = await response.json();
-        if (data.Username) { // Check if I get username in my response
-            return Username
+        if (data) { // Check if I get username in my response
+            return data
         } else { // Handle if there is no username in the response
 
             const error = new Error("Error while getting userdata from the server"); // Very unlikely to happen
@@ -25,4 +26,19 @@ async function check_auth() {
         }
     }
 }
-export default check_auth();
+
+export const log_out = async() => {
+    const response = await fetch(`http://localhost:8080/api/auth/log_out`, {
+        headers: {
+            'Accept': 'application/json',
+            'Credentials': 'include',
+        },
+        method: "GET",
+        credentials: "include",
+    });
+    if (!response.ok) {
+        const errorMessage = await response.text();
+        alert(`Registration failed: ${errorMessage}`);
+    }
+    window.location.href = '/sign_in';
+}

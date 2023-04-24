@@ -15,6 +15,12 @@ async function submitHandler(event) {
         return;
     }
     const response = await fetch('http://localhost:8080/api/auth/sign_in', {
+        headers: {
+            'Accept': 'text/plain',
+            'Content-type': 'text/plain',
+            'Credentials': 'include'
+        },
+        credentials: 'include',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(user),
@@ -25,7 +31,7 @@ async function submitHandler(event) {
 
         console.log(response);
         // Registration successful, redirect to the login page
-        window.location.href = '/home';
+        window.location.href = '/';
     } else {
         // Registration failed, display an error message
         const errorMessage = await response.text();

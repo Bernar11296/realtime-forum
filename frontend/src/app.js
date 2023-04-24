@@ -3,37 +3,35 @@ const nav = document.getElementById("nav");
 
 import renderNav from "./component/navigation.js";
 import home from "./component/pages/home.js"
-import register from "./component/pages/register.js"
-import auth from "./component/pages/auth.js"
-// import { check_auth } from "./api/check.js";
+import sign_up from "./component/pages/sign_up.js"
+import sign_in from "./component/pages/sign_in.js"
+import { check_auth, log_out } from "./api/auth.js";
 
 
-const routes = [
-    { path: "/", pathName: "Home", view: home, auth: true },
-    { path: "/auth", pathName: "auth", view: auth, auth: false },
-    { path: "/register", pathName: "register", view: register, auth: false },
-];
+
 
 const router = async() => {
-    const matchingRoute = routes.find((route) => route.path === window.location.pathname);
-
-    if (!matchingRoute) {
-        appDiv.innerHTML = "<h1>Page not found</h1>";
-        return;
-    }
     let usrObj;
     try {
-        // authenticated = await check_auth();
-        usrObj = {
-            Username: "Diyar",
-            Auth: true
-        }
+        usrObj = await check_auth();
     } catch (error) {
+        console.log(error);
         appDiv.innerHTML = "<h1>Error: " + error.message + "</h1>";
         return
     }
+    const routes = [
+        { path: "/", pathName: "Home", view: home, display: true },
+        { path: "/sign_in", pathName: "Sign in", view: sign_in, display: usrObj === null },
+        { path: "/sign_up", pathName: "Sign up", view: sign_up, display: usrObj === null },
+        { path: "/logout", pathName: "Log out", view: log_out, display: usrObj !== null },
+    ];
+    const matchingRoute = routes.find((route) => route.path === window.location.pathname);
+    if (!matchingRoute || !matchingRoute.display) {
+        appDiv.innerHTML = "<h1>Page not found</h1>";
+    } else {
+        matchingRoute.view();
+    }
     renderNav(routes, nav, usrObj)
-    matchingRoute.view();
 };
 
 document.addEventListener("click", (event) => {
