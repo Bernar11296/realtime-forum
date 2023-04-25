@@ -7,6 +7,7 @@ import sign_up from "./component/pages/sign_up.js"
 import sign_in from "./component/pages/sign_in.js"
 import create_post from "./component/pages/create_post.js";
 import { check_auth, log_out } from "./api/auth.js";
+import post from "./component/pages/post.js";
 
 
 
@@ -21,11 +22,12 @@ const router = async() => {
         return
     }
     const routes = [
-        { path: "/", pathName: "Home", view: home, display: true },
-        { path: "/sign_in", pathName: "Sign in", view: sign_in, display: usrObj === null },
-        { path: "/sign_up", pathName: "Sign up", view: sign_up, display: usrObj === null },
-        { path: "/create_post", pathName: "Create post", view: create_post, display: usrObj !== null },
-        { path: "/logout", pathName: "Log out", view: log_out, display: usrObj !== null },
+        { path: "/", pathName: "Home", view: home, display: true, component: true },
+        { path: "/sign_in", pathName: "Sign in", view: sign_in, display: usrObj === null, component: true },
+        { path: "/sign_up", pathName: "Sign up", view: sign_up, display: usrObj === null, component: true },
+        { path: "/create_post", pathName: "Create post", view: create_post, display: usrObj !== null, component: true },
+        { path: "/logout", pathName: "Log out", view: log_out, display: usrObj !== null, component: true },
+        { path: "/post", pathName: "Post", view: post, display: true, component: false }
     ];
     const matchingRoute = routes.find((route) => route.path === window.location.pathname);
     if (!matchingRoute || !matchingRoute.display) {

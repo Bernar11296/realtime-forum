@@ -21,89 +21,79 @@ async function renderHome() {
     const postContainer = document.createElement('div');
     postContainer.classList.add('post-container');
     let res = await get_post();
+    if (!res.posts) {
+        const homePage = document.createElement('h1');
+        homePage.textContent = 'Post`s not exist';
+        app.innerHTML = '';
+        app.appendChild(homePage);
+        return
+    }
     console.log(res.posts);
     res.posts.forEach(post => {
-        const posthref = document.createElement('a');
-        posthref.href = `/post/${post.Id}`
         const postElement = document.createElement('div');
-        postElement.classList.add('post');
-
-        const titleElement = document.createElement('h2');
-        titleElement.textContent = post.Title;
-
-        const authorElement = document.createElement('p');
-        authorElement.classList.add('post-author');
-        authorElement.textContent = `By ${post.Author}`;
-
-        const contentElement = document.createElement('p');
-        contentElement.classList.add('post-content');
-        contentElement.textContent = post.Content;
-
-        const dateElement = document.createElement('p');
-        dateElement.classList.add('post-date');
-        dateElement.textContent = `Published on ${post.CreationDate}`;
-
-        const likeElement = document.createElement('p');
-        likeElement.classList.add('post-like');
-        likeElement.textContent = `Like (${post.CountLike})`;
-
-        const dislikeElement = document.createElement('p');
-        dislikeElement.classList.add('post-dislike');
-        dislikeElement.textContent = `Dislike (${post.CountDislike})`;
-
-        postElement.appendChild(titleElement);
-        postElement.appendChild(authorElement);
-        postElement.appendChild(contentElement);
-        postElement.appendChild(dateElement);
-        postElement.appendChild(likeElement);
-        postElement.appendChild(dislikeElement);
+        postElement.innerHTML = `
+      <div class="post">
+        <h2 class="post-title"><a href="/post/${post.id}">${post.Title}</a></h2>
+        <p class="post-author">Author: ${post.Author}</p>
+        <p class="post-date">Date of publication: ${post.CreationDate}</p>
+        <p class="post-likes">Likes: ${post.CountLike}</p>
+        <p class="post-dislikes">Dislikes: ${post.CountDislike}</p>
+      </div>
+     `;
         postContainer.appendChild(postElement);
-
     });
     const style = document.createElement('style');
     style.textContent = `
-    .post-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 20px;
-      padding: 20px;
-      background-color: #f2f2f2;
+    /* Style for the title */
+    h1 {
+      text-align: center;
     }
-    
+    .post-container{
+      margin-top: 700px;
+    }
+    /* Style for each post */
     .post {
-      flex: 1 1 300px;
-      background-color: #fff;
-      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-      border-radius: 4px;
-      overflow: hidden;
+      border: 1px solid black;
+      margin: 20px;
+      padding: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
     }
     
-    .post h2 {
+    .post:hover {
+      background-color: #f1f1f1;
+    }
+    
+    /* Style for the post title */
+    .post-title {
       font-size: 24px;
-      margin: 0;
-      padding: 20px;
-      background-color: #007bff;
-      color: #fff;
+      margin-bottom: 10px;
     }
     
-    .post p {
-      font-size: 16px;
-      margin: 0;
-      padding: 10px 20px;
+    .post-title a {
+      color: black;
+      text-decoration: none;
     }
     
+    .post-title a:hover {
+      text-decoration: underline;
+    }
+    
+    /* Style for the post author */
     .post-author {
-      font-weight: bold;
-    }
-    
-    .post-content {
-      text-align: justify;
-      line-height: 1.5;
-    }
-    
-    .post-date {
       font-style: italic;
+    }
+    
+    /* Style for the post date */
+    .post-date {
+      margin-top: 0;
+    }
+    
+    /* Style for the post likes and dislikes */
+    .post-likes,
+    .post-dislikes {
+      display: inline-block;
+      margin: 0 10px;
     }
     
       

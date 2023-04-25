@@ -29,13 +29,15 @@ async function submitHandler(usrObj, form) {
     }
     const response = await fetch('http://localhost:8080/api/post/create_post', {
         method: 'POST',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
         body: JSON.stringify(NewPost),
     });
 
     if (response.ok) {
-        window.location.href = '/create_post';
+        history.pushState({}, null, "/");
+        return
     } else {
         const errorMessage = await response.text();
         alert(`Registration failed: ${errorMessage}`);
@@ -124,6 +126,7 @@ async function create_post(usrObj) {
         event.preventDefault();
         submitHandler(usrObj, event.target);
     });
+    return
 }
 
 export default create_post;
