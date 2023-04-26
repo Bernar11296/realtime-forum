@@ -19,7 +19,6 @@ export const check_auth = async() => {
         if (data) { // Check if I get username in my response
             return data
         } else { // Handle if there is no username in the response
-
             const error = new Error("Error while getting userdata from the server"); // Very unlikely to happen
             error.status = 500;
             throw error;

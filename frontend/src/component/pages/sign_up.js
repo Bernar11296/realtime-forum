@@ -34,7 +34,7 @@ async function submitHandler(event) {
     if (response.ok) {
         console.log(response);
         // Registration successful, redirect to the login page
-        window.location.href = '/auth';
+        window.location.href = '/sign_in';
     } else {
         // Registration failed, display an error message
         const errorMessage = await response.text();

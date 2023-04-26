@@ -22,7 +22,7 @@ const router = async() => {
         return
     }
     const routes = [
-        { path: "/", pathName: "Home", view: home, display: true, component: true },
+        { path: "/", pathName: "Home", view: home, display: usrObj !== null, component: true },
         { path: "/sign_in", pathName: "Sign in", view: sign_in, display: usrObj === null, component: true },
         { path: "/sign_up", pathName: "Sign up", view: sign_up, display: usrObj === null, component: true },
         { path: "/create_post", pathName: "Create post", view: create_post, display: usrObj !== null, component: true },
