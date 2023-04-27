@@ -1,31 +1,35 @@
 package repository
 
+import (
+	"github.com/Bernar11296/realtime-forum/models"
+)
+
 type Authorization interface {
-	CreateUser(model.User) error
-	CheckUser(model.User) (model.User, error)
-	CheckUserByToken(string) (model.User, error)
-	SaveToken(model.User) error
+	CreateUser(models.User) error
+	CheckUser(models.User) (models.User, error)
+	CheckUserByToken(string) (models.User, error)
+	SaveToken(models.User) error
 	DeleteToken(string) error
 	UploadAvatar(string, int) error
 	GetAvatar(int) (string, error)
 	UpdateAvatar(string, int) error
 	DeleteTokenById(int)
-	GetUserInfo(int) (model.User, error)
-	GetUserByEmail(string) (model.User, error)
-	GetUserByUsername(string) (model.User, error)
+	GetUserInfo(int) (models.User, error)
+	GetUserByEmail(string) (models.User, error)
+	GetUserByUsername(string) (models.User, error)
 }
 
 type Post interface {
-	CreatePost(model.Post) error
-	GetAllPost(int, int) ([]model.Post, error)
-	GetPost(int, int) (model.Post, error)
+	CreatePost(models.Post) error
+	GetAllPost(int, int) ([]models.Post, error)
+	GetPost(int, int) (models.Post, error)
 	DeletPost(int) error
-	GetMetaDataPost(int) (model.MetaDataPost, error)
-	GetMetaDataMyPost(int, int) (model.MetaDataPost, error)
-	GetMetaDataMyLikedPost(int, int) (model.MetaDataPost, error)
-	GetCategory() ([]model.Category, error)
+	GetMetaDataPost(int) (models.MetaDataPost, error)
+	GetMetaDataMyPost(int, int) (models.MetaDataPost, error)
+	GetMetaDataMyLikedPost(int, int) (models.MetaDataPost, error)
+	GetCategory() ([]models.Category, error)
 	GetCategoryID(string) (int, error)
-	GetMyPost(int, int, int) ([]model.Post, error)
-	GetMyLikedPost(int, int, int) ([]model.Post, error)
+	GetMyPost(int, int, int) ([]models.Post, error)
+	GetMyLikedPost(int, int, int) ([]models.Post, error)
 	GetUsernameByID(int) (string, error)
 }
