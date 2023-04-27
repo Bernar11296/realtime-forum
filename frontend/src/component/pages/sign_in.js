@@ -39,8 +39,8 @@ async function submitHandler(event) {
     }
 }
 
-function renderAuth() {
-    app.innerHTML = `
+function renderAuth(appDiv) {
+    appDiv.innerHTML = `
     <div class="auth-page">
     <div class="error"></div>
 

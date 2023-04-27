@@ -41,11 +41,14 @@
         }
         
         #app {
-            height: 90vh;
+            height: calc(100vh - 4rem);
+            /* Subtract the height of the #nav element */
             width: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
+            margin-top: 4rem;
+            /* Add a top margin equal to the height of the #nav element */
         }
         
         h1 {

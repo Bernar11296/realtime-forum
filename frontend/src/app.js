@@ -22,20 +22,21 @@ const router = async() => {
         return
     }
     const routes = [
-        { path: "/", pathName: "Home", view: home, display: usrObj !== null, component: true },
-        { path: "/sign_in", pathName: "Sign in", view: sign_in, display: usrObj === null, component: true },
-        { path: "/sign_up", pathName: "Sign up", view: sign_up, display: usrObj === null, component: true },
-        { path: "/create_post", pathName: "Create post", view: create_post, display: usrObj !== null, component: true },
-        { path: "/logout", pathName: "Log out", view: log_out, display: usrObj !== null, component: true },
-        { path: "/post", pathName: "Post", view: post, display: true, component: false }
+        { path: "/", pathName: "Home", view: home, display: usrObj !== null, nav: true },
+        { path: "/sign_in", pathName: "Sign in", view: sign_in, display: usrObj === null, nav: true },
+        { path: "/sign_up", pathName: "Sign up", view: sign_up, display: usrObj === null, nav: true },
+        { path: "/create_post", pathName: "Create post", view: create_post, display: usrObj !== null, nav: true },
+        { path: "/logout", pathName: "Log out", view: log_out, display: usrObj !== null, nav: true },
+        { path: "/post", pathName: "Post", view: post, display: true, nav: false }
     ];
     const matchingRoute = routes.find((route) => route.path === window.location.pathname);
     if (!matchingRoute || !matchingRoute.display) {
+        if (usrObj === null) {
+            window.location.href = '/sign_in';
+        }
         appDiv.innerHTML = "<h1>Page not found</h1>";
-    } else if (matchingRoute && matchingRoute.display) {
-        matchingRoute.view(usrObj);
     } else {
-        matchingRoute.view();
+        matchingRoute.view(appDiv, usrObj);
     }
     renderNav(routes, nav, usrObj)
 };

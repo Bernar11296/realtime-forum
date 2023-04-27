@@ -36,7 +36,7 @@ async function submitHandler(usrObj, form) {
     });
 
     if (response.ok) {
-        history.pushState({}, null, "/");
+        window.location.href = '/';
         return
     } else {
         const errorMessage = await response.text();
@@ -45,7 +45,7 @@ async function submitHandler(usrObj, form) {
 
 }
 
-async function create_post(usrObj) {
+async function create_post(app, usrObj) {
     let categories
     try {
         categories = await get_category();

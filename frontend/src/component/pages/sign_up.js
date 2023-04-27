@@ -42,8 +42,8 @@ async function submitHandler(event) {
     }
 }
 
-function renderRegister() {
-    app.innerHTML = `
+function renderRegister(appDiv) {
+    appDiv.innerHTML = `
     <div class="signup-page">
     <div class="error"></div>
       <form>

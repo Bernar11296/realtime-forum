@@ -18,8 +18,6 @@ const get_post = async() => {
 
 
 async function renderHome() {
-    const postContainer = document.createElement('div');
-    postContainer.classList.add('post-container');
     let res = await get_post();
     if (!res.posts) {
         const homePage = document.createElement('h1');
@@ -28,79 +26,77 @@ async function renderHome() {
         app.appendChild(homePage);
         return
     }
+    const divPosts = document.createElement('div');
+    divPosts.className = 'post-container'
     console.log(res.posts);
-    res.posts.forEach(post => {
-        const postElement = document.createElement('div');
-        postElement.innerHTML = `
-      <div class="post">
-        <h2 class="post-title"><a href="/post/${post.id}">${post.Title}</a></h2>
-        <p class="post-author">Author: ${post.Author}</p>
-        <p class="post-date">Date of publication: ${post.CreationDate}</p>
-        <p class="post-likes">Likes: ${post.CountLike}</p>
-        <p class="post-dislikes">Dislikes: ${post.CountDislike}</p>
-      </div>
-     `;
-        postContainer.appendChild(postElement);
-    });
+    const postList = document.createElement('ul');
+    postList.className = 'post-list';
+    console.log(res.posts);
+    for (const post of res.posts) {
+        const postItem = document.createElement('li');
+        postItem.className = 'post-item';
+        postItem.innerHTML = `
+        <a href="/post?id=${post.Id}">
+          <h2>${post.Title}</h2>
+          <p>Author: ${post.Author}</p>
+          <p>Category: ${post.Category}</p>
+          <p>Publication Date: ${new Date(post.CreationDate).toLocaleDateString()}</p>
+          <p>Likes: ${post.CountLike}</p>
+          <p>Dislikes: ${post.CountDislike}</p>
+        </a>
+      `
+        postList.append(postItem)
+    }
     const style = document.createElement('style');
     style.textContent = `
-    /* Style for the title */
-    h1 {
-      text-align: center;
-    }
     .post-container{
-      margin-top: 700px;
+      margin-top:300px;
+      padding-top: 200px;
     }
-    /* Style for each post */
-    .post {
-      border: 1px solid black;
-      margin: 20px;
-      padding: 10px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
+    .post-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
     }
     
-    .post:hover {
-      background-color: #f1f1f1;
+    .post-item {
+      margin: 20px 0;
     }
     
-    /* Style for the post title */
-    .post-title {
-      font-size: 24px;
-      margin-bottom: 10px;
-    }
-    
-    .post-title a {
-      color: black;
+    .post-item a {
       text-decoration: none;
+      color: #333;
+      display: block;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      transition: all 0.2s ease;
     }
     
-    .post-title a:hover {
-      text-decoration: underline;
+    .post-item a:hover {
+      background-color: #eee;
     }
     
-    /* Style for the post author */
-    .post-author {
-      font-style: italic;
+    .post-item h2 {
+      margin: 0 0 10px;
     }
     
-    /* Style for the post date */
-    .post-date {
-      margin-top: 0;
+    .post-item p {
+      margin: 0;
+      font-size: 14px;
+      color: #666;
     }
     
-    /* Style for the post likes and dislikes */
-    .post-likes,
-    .post-dislikes {
-      display: inline-block;
-      margin: 0 10px;
+    .post-item p:first-child {
+      margin-top: 10px;
     }
     
-      
   `;
+    divPosts.appendChild(postList)
     app.innerHTML = '';
-    app.appendChild(postContainer);
-    app.appendChild(style)
+
+    app.appendChild(divPosts);
+    app.appendChild(style);
 }
 
 

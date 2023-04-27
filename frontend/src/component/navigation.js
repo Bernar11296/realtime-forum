@@ -1,10 +1,10 @@
 function renderNav(routes, navDiv, usrObj) {
 
-    navDiv.innerHTML = ""; // clear navDiv before adding new links
+    navDiv.innerHTML = "";
 
     routes.forEach((route) => {
-        console.log(route.display || route.component);
-        if (!route.display || !route.component) {
+        // console.log(route.display || route.component);
+        if (!route.display || !route.nav) {
             return;
         }
 
