@@ -111,7 +111,7 @@ async function Post(app, usrObj) {
     postContainer.appendChild(postFormElement);
     
 
-
+    /*
     try {
       comments = await getComments(postId);
     } catch (error) {
@@ -133,6 +133,7 @@ async function Post(app, usrObj) {
     }
 
     const style = document.createElement('style');
+    */
     style.textContent = `
     /* Style for the title */
     h1 {

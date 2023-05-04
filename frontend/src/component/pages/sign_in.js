@@ -91,8 +91,7 @@ function renderAuth(appDiv) {
     }
   `;
 
-    // Append the style element to the head of the HTML document
-    document.head.appendChild(style);
+    appDiv.appendChild(style);
 
     const form = document.querySelector('form');
     form.addEventListener('submit', submitHandler);
